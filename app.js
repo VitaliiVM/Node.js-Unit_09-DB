@@ -40,7 +40,7 @@ http.createServer((req, res) => {
                 })));
             })
         }
-        if (urlRequest.query.test == 4 && urlRequest.query.email !== '') {
+        if (urlRequest.query.test == 4 && urlRequest.query.email == '') {
             const query = "SELECT * FROM user";
             conn.query(query, (err, result) => {
                 res.end(JSON.stringify(result.map(data => {
@@ -51,10 +51,22 @@ http.createServer((req, res) => {
         } else {
             res.end("0");
         }
+        if (urlRequest.query.test == 5 && urlRequest.query.email !== '') {
+            let query ="SELECT * FROM user WHERE email LIKE 'like@%'";
+            conn.query(query, (err, result) => {
+                res.end(JSON.stringify(result.map(data => {
+                    console.log(data['id']);
+                    return data['id'];
+                })));
+            })
+        } else {
+            res.end('parameters is not found');
+        }
     }
 }).listen(3000);
 
 // const finish = conn.end( err => {
+
 //     if (err) {
 //         console.log(err);
 //         return err;
